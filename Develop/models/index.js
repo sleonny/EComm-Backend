@@ -1,20 +1,28 @@
-// import models
-const Product = require('./Product');
-const Category = require('./Category');
-const Tag = require('./Tag');
-const ProductTag = require('./ProductTag');
+const Sequelize = require('sequelize');
+const dbConfig = require('../config/database');
 
-// Products belongsTo Category
+const sequelize = new Sequelize(
+  dbConfig.database,
+  dbConfig.username,
+  dbConfig.password,
+  dbConfig.options
+);
 
-// Categories have many Products
+const models = {};
 
-// Products belongToMany Tags (through ProductTag)
+models.Category = sequelize.define('category', {
+  // Define the category model attributes here
+});
 
-// Tags belongToMany Products (through ProductTag)
+models.Product = sequelize.define('product', {
+  // Define the product model attributes here
+});
 
-module.exports = {
-  Product,
-  Category,
-  Tag,
-  ProductTag,
-};
+models.Tag = sequelize.define('tag', {
+  // Define the tag model attributes here
+});
+
+// Define the model associations here, such as one-to-many or many-to-many relationships
+
+module.exports = { sequelize, models };
+
