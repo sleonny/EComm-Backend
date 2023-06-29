@@ -1,9 +1,9 @@
-const router = require('express').Router();
-const { Category, Product } = require('../../models');
+const router = require("express").Router();
+const { Category, Product } = require("../../models");
 
 // The `/api/categories` endpoint
 
-router.get('/', async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const categories = await Category.findAll({ include: Product });
     res.status(200).json(categories);
@@ -12,33 +12,46 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req,res) => {
+router.get("/:id", async (req, res) => {
   try {
-    const category = await Category.findByPk(req.params.id, {include: Product});
-      if (!category) {
-        res.status(404).json({ message: 'Category not found' });
-        return;
-      }
+    const category = await Category.findByPk(req.params.id, {
+      include: Product,
+    });
+    if (!category) {
+      res.status(404).json({ message: "Category not found" });
+      return;
+    }
     res.status(200).json(category);
   } catch (error) {
     res.status(500).json(error);
   }
 });
 
-router.post('/', async (req, res) => {
- try {
-  const category = await Category.create(req.body);
-  res.status(201).json(category);
- } catch (error) {
-  res.status(500).json(error);
- }
+router.post("/", async (req, res) => {
+  try {
+    const category = await Category.create(req.body);
+    res.status(201).json(category);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
-router.put('/:id', (req, res) => {
-  // update a category by its `id` value
+router.put("/:id", async (req, res) => {
+  try {
+    const category = await Category.update(req.body, {
+      where: { id: req.params.id },
+    });
+    if (!category[0]) {
+      res.status(404).json({ message: "Category not found" });
+      return;
+    }
+    res.status(200).json({ message: "Category successfully updated" });
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
-router.delete('/:id', (req, res) => {
+router.delete("/:id", (req, res) => {
   // delete a category by its `id` value
 });
 
