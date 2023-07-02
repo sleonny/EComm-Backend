@@ -7,7 +7,7 @@ const { models } = require("../../models");
 router.get("/", async (req, res) => {
   try {
     const products = await models.Product.findAll({
-      inclue: [
+      include: [
         { model: models.Category },
         { model: models.Tag, through: models.ProductTag },
       ],
