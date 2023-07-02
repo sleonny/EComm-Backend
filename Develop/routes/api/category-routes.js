@@ -1,11 +1,13 @@
 const router = require("express").Router();
-const { Category, Product } = require("../../models");
+const { models } = require("../../models");
 
 // The `/api/categories` endpoint
 
 router.get("/", async (req, res) => {
   try {
-    const categories = await Category.findAll({ include: Product });
+    const categories = await models.Category.findAll({
+      include: [{ model: models.Category }],
+    });
     res.status(200).json(categories);
   } catch (error) {
     res.status(500).json(error);
@@ -14,8 +16,8 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const category = await Category.findByPk(req.params.id, {
-      include: Product,
+    const category = await models.Category.findByPk(req.params.id, {
+      include: [{ model: models.Category }],
     });
     if (!category) {
       res.status(404).json({ message: "Category not found" });
@@ -29,7 +31,7 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const category = await Category.create(req.body);
+    const category = await models.Category.create(req.body);
     res.status(201).json(category);
   } catch (error) {
     res.status(500).json(error);
@@ -38,7 +40,7 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   try {
-    const category = await Category.update(req.body, {
+    const category = await models.Category.update(req.body, {
       where: { id: req.params.id },
     });
     if (!category[0]) {
@@ -53,7 +55,7 @@ router.put("/:id", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   try {
-    const category = await Category.destroy({
+    const category = await models.Category.destroy({
       where: { id: req.params.id },
     });
     if (!category) {
