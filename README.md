@@ -17,7 +17,7 @@ This app was created to use Sequelize in order to maintain an inventory database
 
 ## Demonstration
 
-https://drive.google.com/file/d/1-ZBwko3eG7CCpLywnmmOx6uKwJvJCsKu/view
+https://drive.google.com/file/d/1Y_ATSQcvfeqdrkWFc_qx-U9V16VsYT8C/view
     
 ## Installation
 
